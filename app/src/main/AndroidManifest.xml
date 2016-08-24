@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.pebble.daedeokms"
+    android:versionCode="11"
+    android:versionName="3.1">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@drawable/ic_launcher"
+        android:label="@string/app_name"
+        android:theme="@style/AppTheme">
+        <activity
+            android:name="com.pebble.daedeokms.Splash"
+            android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="portrait"
+            android:theme="@style/Splash" />
+        <activity
+            android:name="com.pebble.daedeokms.MainActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.pebble.daedeokms.Tutorial"
+            android:screenOrientation="portrait"
+            android:theme="@style/Tutorial" />
+        <activity
+            android:name="com.pebble.daedeokms.bap.BapActivity"
+            android:label="@string/title_activity_bap"
+            android:screenOrientation="portrait"
+            android:theme="@style/Bap" />
+        <activity
+            android:name="com.pebble.daedeokms.timetable.TimeTableActivity"
+            android:label="@string/title_activity_time_table"
+            android:screenOrientation="portrait"
+            android:theme="@style/TimeTable" />
+        <activity
+            android:name="com.pebble.daedeokms.settings.SettingsActivity"
+            android:label="@string/title_activity_settings"
+            android:screenOrientation="portrait"
+            android:theme="@style/Settings" />
+        <activity
+            android:name="com.pebble.daedeokms.schedule.ScheduleActivity"
+            android:label="@string/title_activity_schedule"
+            android:screenOrientation="portrait"
+            android:theme="@style/Schedule" />
+        <activity
+            android:name="com.pebble.daedeokms.info.SchoolInfo"
+            android:label="@string/title_activity_school_info"
+            android:screenOrientation="portrait"
+            android:theme="@style/info" />
+        <activity
+            android:name="com.pebble.daedeokms.info.ImageDetailActivity"
+            android:label="@string/title_activity_image_detail"
+            android:screenOrientation="portrait" />
+
+        <receiver
+            android:name="com.pebble.daedeokms.autoupdate.BroadCast"
+            android:label="@string/title_broadcast_autoupdate"
+            android:permission="android.permission.RECEIVE_BOOT_COMPLETED">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name=".AlarmReceiver"
+            android:process=":remote"></receiver>
+
+        <service
+            android:name="com.pebble.daedeokms.autoupdate.updateService"
+            android:label="@string/title_service_autoupdate" />
+
+        <activity
+            android:name="com.pebble.daedeokms.todaylist.TodayList"
+            android:label="@string/title_activity_today_list"
+            android:screenOrientation="portrait"
+            android:theme="@style/TodayList" />
+        <activity
+            android:name="com.pebble.daedeokms.chat.ChatActivity"
+            android:label="채팅"
+            android:screenOrientation="portrait"
+            android:theme="@style/Chatting" />
+        <activity
+            android:name="com.pebble.daedeokms.chat.ChatEnterActivity"
+            android:label="채팅"
+            android:screenOrientation="portrait"
+            android:theme="@style/Chatting" />
+        <activity
+            android:name="com.pebble.daedeokms.board.Notice"
+            android:label="공지사항"
+            android:screenOrientation="portrait"
+            android:theme="@style/Notice" />
+        <activity
+            android:name="com.pebble.daedeokms.council.CouncilActivity"
+            android:label="학생회"
+            android:screenOrientation="portrait"
+            android:theme="@style/Council" />
+
+        <receiver android:name=".BroadcastD"></receiver>
+    </application>
+
+</manifest>

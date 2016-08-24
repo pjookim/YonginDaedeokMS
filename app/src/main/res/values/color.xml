@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="flat_light_blue">#6A71E5</color>
+    <color name="flat_sky_blue">#0091FF</color>
+    <color name="flat_sky_light_blue">#2CBAE7</color>
+    <color name="flat_light_green">#61D2FE</color>
+    <color name="flat_indigo">#3F51B5</color>
+    <color name="flat_cyan">#00BCD4</color>
+    <color name="flat_green">#8BC34A</color>
+    <color name="flat_yellow_green">#8BC34A</color>
+    <color name="flat_yellow_green_pressed">#689F38</color>
+    <color name="flat_rose">#FF4966</color>
+    <color name="flat_bright_red_orange">#FF5722</color>
+    <color name="flat_melon_yellow">#FFA500</color>
+    <color name="flat_traffic_yellow">#FFD200</color>
+    <color name="flat_grey">#9FA0A4</color>
+    <color name="grey">#353840</color>
+    <color name="flat_lime">#CDDC39</color>
+    <color name="card_title">#333333</color>
+    <color name="card_sub_title">#9E9E9E</color>
+    <color name="flat_yellow">#FFC107</color>
+</resources>

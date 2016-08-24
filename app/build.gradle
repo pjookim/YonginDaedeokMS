@@ -1,0 +1,57 @@
+apply plugin: 'com.android.application'
+android {
+    compileSdkVersion 24
+    buildToolsVersion "24.0.1"
+
+    defaultConfig {
+        applicationId "com.pebble.daedeokms"
+        minSdkVersion 16
+        targetSdkVersion 24
+        versionCode 13
+        versionName "3.0"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+    dependencies {
+        compile 'com.android.support:appcompat-v7:24.1.0'
+    }
+    dependencies {
+        compile fileTree(dir: 'libs', include: ['*.jar'])
+        compile 'com.android.support:cardview-v7:24.+'
+    }
+    dependencies {
+        /*
+        compile files('jericho-html-3.3.jar')
+        compile files('jsoup-1.8.3.jar')
+        compile files('httpclient-4.5.1.jar')
+        compile files('commons-logging-1.2.jar')
+        compile files('httpcore-4.4.3.jar')
+        */
+    }
+}
+
+dependencies {
+    compile 'com.android.support:appcompat-v7:24.1.0'
+    compile 'com.android.support:design:24.1.0'
+    compile 'com.android.support:cardview-v7:24.1.0'
+    compile 'com.android.support:recyclerview-v7:24.1.0'
+    compile 'com.android.support:support-v4:24.1.0'
+    compile 'com.nispok:snackbar:2.11.+'
+    compile 'com.github.mrengineer13:snackbar:1.2.0'
+    compile 'com.github.flavienlaurent.datetimepicker:library:0.0.2'
+    compile project(':L-Dialogs')
+}
+android {
+    packagingOptions {
+        exclude 'META-INF/DEPENDENCIES'
+        exclude 'META-INF/NOTICE'
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/LICENSE.txt'
+        exclude 'META-INF/NOTICE.txt'
+    }
+    // ...
+}
