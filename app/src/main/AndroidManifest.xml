@@ -73,9 +73,6 @@
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
-        <receiver
-            android:name=".AlarmReceiver"
-            android:process=":remote"></receiver>
 
         <service
             android:name="com.pebble.daedeokms.autoupdate.updateService"
@@ -106,8 +103,6 @@
             android:label="학생회"
             android:screenOrientation="portrait"
             android:theme="@style/Council" />
-
-        <receiver android:name=".BroadcastD"></receiver>
     </application>
 
 </manifest>
