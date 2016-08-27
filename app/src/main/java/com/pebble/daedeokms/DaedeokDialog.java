@@ -8,7 +8,7 @@ import android.widget.*;
 import java.io.*;
 import java.net.*;
 
-public class SongDialog extends Dialog implements android.view.View.OnClickListener {
+public class DaedeokDialog extends Dialog implements android.view.View.OnClickListener {
 
     public Activity c;
     public Dialog d;
@@ -18,7 +18,7 @@ public class SongDialog extends Dialog implements android.view.View.OnClickListe
 
     TextView tv;
 
-    public SongDialog(Activity a) {
+    public DaedeokDialog(Activity a) {
         super(a);
         this.c = a;
     }

@@ -54,16 +54,14 @@ public class BapActivity extends ActionBarActivity {
         mAdapter = new BapListAdapter(this);
         mListView.setAdapter(mAdapter);
 
-        mListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int position, long id) {
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
                 BapListData mData = mAdapter.getItem(position);
                 String mShareBapMsg = String.format(
                         getString(R.string.shareBap_message_msg), mData.mCalender,
                         mData.mLunch);
                 bapShare(mShareBapMsg);
-
-                return true;
             }
         });
 

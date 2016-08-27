@@ -6,7 +6,6 @@ import android.support.v7.app.ActionBarActivity;
 import android.view.WindowManager;
 import android.widget.ImageView;
 
-import java.util.Random;
 import android.net.*;
 import android.content.*;
 
@@ -14,7 +13,6 @@ import com.github.mrengineer13.snackbar.SnackBar;
 
 
 public class Splash extends ActionBarActivity {
-
     SnackBar.Builder mSnackBar;
 
     @Override
@@ -45,11 +43,8 @@ public class Splash extends ActionBarActivity {
         int[] images = new int[] {R.drawable.splash_image1, R.drawable.splash_image2, R.drawable.splash_image3};
 
         ImageView mImageView = (ImageView)findViewById(R.id.splash1);
-
-// Get a random between 0 and images.length-1
         int imageId = (int)(Math.random() * images.length);
 
-// Set the image
         mImageView.setBackgroundResource(images[imageId]);
 
         Handler handler = new Handler();
