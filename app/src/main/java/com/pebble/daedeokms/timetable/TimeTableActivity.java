@@ -3,6 +3,7 @@ package com.pebble.daedeokms.timetable;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -26,6 +27,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import com.github.mrengineer13.snackbar.SnackBar;
 import com.pebble.daedeokms.spreadsheets.GoogleSheetTask;
 import com.pebble.daedeokms.R;
 import com.pebble.daedeokms.tool.Database;
@@ -111,6 +113,26 @@ public class TimeTableActivity extends ActionBarActivity {
         });
 
         setCurrentItem();
+
+        SharedPreferences preference2 = getSharedPreferences("b", MODE_PRIVATE);
+        int firstviewshow = preference2.getInt("TimeTable", 0);
+        if (firstviewshow != 1) {
+            SnackBar.Builder mSnackBar = new SnackBar.Builder(this);
+            mSnackBar.withMessage("실제 시간표와 다를 수 있으니, 꼭 확인하시기 바랍니다.");
+            mSnackBar.withStyle(SnackBar.Style.INFO);
+            mSnackBar.withActionMessage(getResources().getString(android.R.string.ok));
+            mSnackBar.show();
+
+            int infoFirst=1;
+
+            SharedPreferences b = getSharedPreferences("b", MODE_PRIVATE);
+
+            SharedPreferences.Editor editor = b.edit();
+
+            editor.putInt("TimeTable", infoFirst);
+
+            editor.commit();
+        }
     }
 
     private void setCurrentItem() {

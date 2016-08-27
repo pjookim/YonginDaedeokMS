@@ -23,7 +23,9 @@
         android:layout_gravity="center"
         card_view:cardCornerRadius="3dp"
         card_view:cardElevation="1.5dp"
-        card_view:cardBackgroundColor="#fff">
+        card_view:cardBackgroundColor="#fff"
+        android:clickable="true"
+        android:foreground="?android:selectableItemBackground">
 
         <LinearLayout
             style="@style/Widget.CardContent"

@@ -4,11 +4,11 @@
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
 
-        <item name="colorAccent">#FF5252</item>
+        <item name="colorAccent">#8BC34A</item>
         <item name="colorPrimary">#8BC34A</item>
         <item name="colorPrimaryDark">#689F38</item>
         <item name="colorControlNormal">#FF5252</item>
-        <item name="colorControlHighlight">#D32F2F</item>
+        <item name="colorControlHighlight">#8BC34A</item>
         <!--
             Theme customizations available in newer API levels can go in
             res/values-vXX/styles.xml, while customizations related to

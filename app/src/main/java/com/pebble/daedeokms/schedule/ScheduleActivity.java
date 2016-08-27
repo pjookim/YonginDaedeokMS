@@ -1,5 +1,6 @@
 package com.pebble.daedeokms.schedule;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
@@ -32,11 +33,25 @@ public class ScheduleActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_schedule);
 
-        SnackBar.Builder mSnackBar = new SnackBar.Builder(this);
-        mSnackBar.withMessage("추후 상기사항은 학교사정에 따라 변경 될 수 있습니다.");
-        mSnackBar.withStyle(SnackBar.Style.INFO);
-        mSnackBar.withActionMessage(getResources().getString(android.R.string.ok));
-        mSnackBar.show();
+        SharedPreferences preference2 = getSharedPreferences("b", MODE_PRIVATE);
+        int firstviewshow = preference2.getInt("Schedule", 0);
+        if (firstviewshow != 1) {
+            SnackBar.Builder mSnackBar = new SnackBar.Builder(this);
+            mSnackBar.withMessage("추후 상기사항은 학교사정에 따라 변경 될 수 있습니다.");
+            mSnackBar.withStyle(SnackBar.Style.INFO);
+            mSnackBar.withActionMessage(getResources().getString(android.R.string.ok));
+            mSnackBar.show();
+
+            int infoFirst=1;
+
+            SharedPreferences b = getSharedPreferences("b", MODE_PRIVATE);
+
+            SharedPreferences.Editor editor = b.edit();
+
+            editor.putInt("Schedule", infoFirst);
+
+            editor.commit();
+        }
 
         mListview = (ListView) findViewById(R.id.mListView);
         mListview.setOnItemClickListener(new AdapterView.OnItemClickListener() {

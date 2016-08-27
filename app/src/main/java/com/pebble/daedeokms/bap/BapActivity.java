@@ -62,6 +62,7 @@ public class BapActivity extends ActionBarActivity {
                         getString(R.string.shareBap_message_msg), mData.mCalender,
                         mData.mLunch);
                 bapShare(mShareBapMsg);
+                return;
             }
         });
 

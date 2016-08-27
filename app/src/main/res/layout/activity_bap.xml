@@ -20,7 +20,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:divider="@null"
-                android:dividerHeight="5dp" />
+                android:foreground="#00000000"
+                android:clickable="false"/>
 
             <android.support.design.widget.FloatingActionButton
                 android:id="@+id/fab"
