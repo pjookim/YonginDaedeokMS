@@ -11,9 +11,6 @@ import java.util.ArrayList;
 
 import com.pebble.daedeokms.R;
 
-/**
- * Created by whdghks913 on 2015-12-10.
- */
 public class TimeTableAdapter extends RecyclerView.Adapter<TimeTableAdapter.TimeTableViewHolder> {
 //    private int mBackground;
     private ArrayList<TimeTableInfo> mValues = new ArrayList<>();

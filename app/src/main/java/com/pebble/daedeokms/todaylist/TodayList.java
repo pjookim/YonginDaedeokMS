@@ -17,6 +17,10 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.ViewGroup;
 
+import com.google.android.gms.analytics.GoogleAnalytics;
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
+import com.pebble.daedeokms.AnalyticsApplication;
 import com.pebble.daedeokms.R;
 
 public class TodayList extends ActionBarActivity implements
@@ -24,6 +28,8 @@ public class TodayList extends ActionBarActivity implements
 
     ListView mListView;
     TodayListAdapter mAdapter;
+
+    private Tracker mTracker;
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -43,6 +49,13 @@ public class TodayList extends ActionBarActivity implements
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_today_list);
+
+        AnalyticsApplication application = (AnalyticsApplication) getApplication();
+        mTracker = application.getDefaultTracker();
+
+        //Log.i(TAG, "Setting screen name: " + name);
+        mTracker.setScreenName("TodayList");
+        mTracker.send(new HitBuilders.ScreenViewBuilder().build());
 
         // Set up the action bar.
         final ActionBar actionBar = getSupportActionBar();
@@ -174,5 +187,17 @@ public class TodayList extends ActionBarActivity implements
                     false);
             return rootView;
         }
+    }
+
+    @Override
+    protected void onStart(){
+        super.onStart();
+        GoogleAnalytics.getInstance(this).reportActivityStart(this);
+    }
+
+    @Override
+    protected void onStop(){
+        super.onStop();
+        GoogleAnalytics.getInstance(this).reportActivityStop(this);
     }
 }

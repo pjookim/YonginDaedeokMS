@@ -40,14 +40,14 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="학교정보"
+                    android:text="@string/title_activity_school_info"
                     android:textSize="24dp"
                     android:textIsSelectable="false" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="용인대덕중학교 정보에 대해 확인합니다"
+                    android:text="@string/subtitle_activity_school_info"
                     android:textSize="16dp"
                     android:textColor="@color/card_sub_title" />
 

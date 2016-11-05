@@ -16,9 +16,6 @@ import com.pebble.daedeokms.bap.ProcessTask;
 import com.pebble.daedeokms.tool.Preference;
 import com.pebble.daedeokms.tool.Tools;
 
-/**
- * Created by 종환 on 2015-02-22.
- */
 public class updateService extends Service {
     Calendar mCalendar;
     Preference mPref;
@@ -130,7 +127,7 @@ public class updateService extends Service {
         NotificationManager nm = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
         NotificationCompat.Builder mCompatBuilder = new NotificationCompat.Builder(this);
-        mCompatBuilder.setSmallIcon(R.drawable.ic_notifi_icon);
+        mCompatBuilder.setSmallIcon(R.drawable.ic_notify);
         mCompatBuilder.setTicker(getString(R.string.bapUpdateNotification_ticker));
         mCompatBuilder.setWhen(System.currentTimeMillis());
 //        mCompatBuilder.setAutoCancel(true);
@@ -147,7 +144,7 @@ public class updateService extends Service {
         PendingIntent pendingIntent = PendingIntent.getService(this, 0, new Intent(this, updateService.class), PendingIntent.FLAG_UPDATE_CURRENT);
 
         NotificationCompat.Builder mCompatBuilder = new NotificationCompat.Builder(this);
-        mCompatBuilder.setSmallIcon(R.drawable.ic_notifi_icon);
+        mCompatBuilder.setSmallIcon(R.drawable.ic_notify);
         mCompatBuilder.setTicker(getString(R.string.bapUpdateNotification_notification));
         mCompatBuilder.setWhen(System.currentTimeMillis());
         mCompatBuilder.setAutoCancel(true);

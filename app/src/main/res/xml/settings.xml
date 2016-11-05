@@ -50,10 +50,6 @@
             android:summary="수정내역을 확인합니다"
             android:title="수정내역" />
         <Preference
-            android:key="Developer"
-            android:summary="학교앱 개발자의 정보를 확인합니다"
-            android:title="개발자 정보" />
-        <Preference
             android:key="appVersion"
             android:summary="v0.0"
             android:title="어플 버전" />

@@ -10,9 +10,6 @@ import net.htmlparser.jericho.Source;
 import java.net.URL;
 import java.util.List;
 
-/**
- * Created by whdghks913 on 2015-10-02.
- */
 public abstract class GoogleSheetTask extends AsyncTask<String, Integer, Long> {
     /**
      * --------- Row

@@ -12,9 +12,6 @@ import java.util.ArrayList;
 
 import com.pebble.daedeokms.R;
 
-/**
- * Created by 종환 on 2015-02-22.
- */
 class InfoViewHolder {
     public ImageView mImage;
     public TextView mTitle;

@@ -100,34 +100,6 @@ public class BapListAdapter extends BaseAdapter {
         mHolder.mDayOfTheWeek.setText(mDayOfTheWeek);
         mHolder.mLunch.setText(mLunch);
 
-        /*LinearLayout bapListLayout = (LinearLayout) convertView
-                .findViewById(R.id.bapListLayout);
-
-        try {
-            SimpleDateFormat sdFormat = new SimpleDateFormat("yyyy.MM.dd(E)",
-                    Locale.KOREA);
-
-            Calendar Date = Calendar.getInstance();
-            Date.setTime(sdFormat.parse(Calender));
-
-            if (Date.get(Calendar.YEAR) == YEAR
-                    && Date.get(Calendar.MONTH) == MONTH
-                    && Date.get(Calendar.DAY_OF_MONTH) == DAY_OF_MONTH) {
-
-                bapListLayout.setBackgroundColor(mContext.getResources()
-                        .getColor(R.color.background));
-
-                return convertView;
-
-            } else {
-                bapListLayout.setBackgroundColor(mContext.getResources()
-                        .getColor(android.R.color.transparent));
-            }
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }*/
-
         return convertView;
     }
 }

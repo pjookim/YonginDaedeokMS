@@ -1,19 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="confirm">확인</string>
+    <string name="cancel">취소</string>
+    <string name="need_network">네트워크 연결이 필요합니다.</string>
+    <string name="no_network">네트워크에 연결되어 있지 않습니다.</string>
+    <string name="before_close">\'뒤로\' 버튼을 한번 더 누르시면 종료됩니다.</string>
+    <string name="playstore_package">\'용인대덕중학교\'앱 다운로드 [https://play.google.com/store/apps/details?id=com.pebble.daedeokms]</string>
 
     <!-- 메인 -->
     <string name="app_name">용인대덕중학교</string>
     <string name="action_settings">설정</string>
     <string name="action_refresh">새로 고침</string>
-    <string name="alert2016_title">공지</string>
-    <string name="alert2016">\n2016년 시간표와 일정DB의 업데이트가 준비중입니다.
-        \n\n아, 근데 귀찮으면 또 어떻게 될지는..
-    \n\n\n-3학년 올라가는 김평주
-    \n\n*마술부 동아리 모집중이랍니다.</string>
+    <string name="alert_title">공지사항</string>
+    <string name="update_alert_title">업데이트 안내</string>
+    <string name="update_alert_message">새로운 버전의 용인대덕중학교앱이 있습니다. 업데이트 하시겠습니까?</string>
+    <string name="menu_settings">설정</string>
+    <string name="menu_notice">공지사항</string>
+    <string name="menu_developer">개발자 정보</string>
     <!-- 오픈소스 라이센스 -->
     <string name="license_title">라이센스 정보</string>
     <string name="license_msg">-학교앱 오픈소스
-\n(미르의IT 정복기 블로거 미르님 감사합니다.)
 \n(https://bitbucket.org/whdghks913/wondanghighschool)
 \n
 \n-AppCompat-v7
@@ -47,7 +53,20 @@
     <string name="developer_title">개발자 정보</string>
     <string name="changeLog_title">수정내역</string>
     <string name="changeLog_msg">
-        [3.0] : 2016년 2학기 임시 업데이트
+        [3.4] : 버그 수정
+        \n-채팅 기능 삭제
+        \n-업데이트 안내 다이얼로그 추가
+        \n-공지사항 링크 추가
+        \n-구글 애널리틱스 연동
+        \n-코드 정리
+        \n-버그 수정
+        \n
+        \n[3.2] : 일부 UI개편
+        \n-급식, 학교 정보 카드뷰로 수정
+        \n-앱 경량화
+        \n-버그 수정
+        \n
+        \n[3.0] : 2016년 2학기 임시 업데이트
         \n-메인 UI 개편
         \n-학생회 게시판 추가
         \n-홈페이지 공지사항 추가
@@ -55,7 +74,6 @@
         \n-2016년 학사일정 등록
         \n-급식 파싱 오류 해결
         \n-학교 정보, 튜토리얼 버그 수정
-        \n-\"소리 질러!!! 스페셜 에디션\" 추가
         \n
         \n[2.2] : 버그 수정
         \n-스플래시 수정
@@ -92,6 +110,7 @@
     </string>
     <!-- 급식 -->
     <string name="title_activity_bap">급식</string>
+    <string name="subtitle_activity_bap">급식을 확인합니다.</string>
     <string name="action_calender">날짜 설정</string>
     <string name="action_today">오늘 날짜</string>
     <string name="today_lunch">오늘의 점심</string>
@@ -100,19 +119,24 @@
     <string name="no_data_dinner">저녁이 없습니다</string>
     <string name="no_network_title">인터넷 연결 안됨</string>
     <string name="no_network_msg">인터넷 연결이 안되서 데이터를 다운로드 할 수 없습니다</string>
-    <string name="shareBap_title">급식 공유하기</string>
+    <string name="shareBap_title">급식 공유</string>
     <string name="shareBap_message_msg">용인대덕중 %1$s 급식
-\n\n%2$s</string>
+\n\n%2$s
+    \n\n%3$s</string>
     <string name="loading_title">로딩중</string>
     <!-- 시간표 -->
     <string name="title_activity_time_table">시간표</string>
+    <string name="subtitle_activity_time_table">시간표를 확인합니다.</string>
+    <string name="timetable_snackbar">실제 시간표와 다를 수 있으니, 꼭 확인하시기 바랍니다.</string>
+    <string name="reload">다시 로딩됩니다.</string>
     <string name="today_timetable">%1$s 시간표</string>
     <string name="no_setting_mygrade">학급 정보가 없습니다</string>
     <string name="timetable_title">%1$d학년 %2$d반 시간표</string>
     <string name="action_reset_mygrade">학급 정보 재설정</string>
     <string name="action_share_timetable">시간표 공유</string>
-    <string name="action_share_timetable_msg">%1$s 시간표
-\n%2$s</string>
+    <string name="action_share_timetable_msg">%1$s학년 %2$s반 %3$s 시간표
+\n%4$s
+    \n\n%5$s</string>
     <string name="action_setting_mygrade">학년 설정</string>
     <string name="action_setting_myclass">반 설정</string>
     <string name="action_setting_myweek">요일 설정</string>
@@ -126,10 +150,31 @@
     <string name="no_time_table_db_message">시간표 DB가 없습니다, 다운로드 하시겠습니까?</string>
     <!-- 설정 -->
     <string name="title_activity_settings">설정</string>
+    <!--공지사항-->
+    <string name="title_activity_notice">공지사항</string>
+    <string name="subtitle_activity_notice">학교 홈페이지 공지사항을 확인합니다</string>
+    <string name="no_internet_stop">인터넷에 연결되지않아 불러오기를 중단합니다.</string>
+    <string name="parsing_notice">게시판을 불러오는 중입니다.</string>
+    <!--채팅-->
+    <string name="enter_message">메시지를 입력하세요.</string>
+    <string name="enter_chatting">채팅방 접속</string>
+    <string name="enter_nicname">닉네임을 입력해 주세요</string>
+    <string name="long_nicname">닉네임의 길이가 너무 깁니다</string>
+    <string name="chat_dateformat">yyyy년 MM월 dd일 aa hh:mm</string>
+    <string name="send">전송</string>
     <!-- 일정 -->
     <string name="title_activity_schedule">일정</string>
+    <string name="subtitle_activity_schedule">학사 일정을 확인합니다</string>
+    <string name="schedule_snackbar">추후 상기사항은 학교사정에 따라 변경 될 수 있습니다.</string>
+    <!--학생회-->
+    <string name="title_activity_council">학생회</string>
+    <string name="subtitle_activity_council">학생회 게시판을 확인합니다.</string>
+    <!--학교 홈페이지-->
+    <string name="title_activity_web">학교 홈페이지</string>
+    <string name="subtitle_activity_web">학교 홈페이지로 이동합니다</string>
     <!-- 학교 정보 -->
     <string name="title_activity_school_info">학교 정보</string>
+    <string name="subtitle_activity_school_info">용인대덕중학교 정보에 대해 확인합니다</string>
     <!-- 자세히보기 -->
     <string name="title_activity_image_detail">자세히보기</string>
     <!-- 급식 자동 업데이트 -->
@@ -157,6 +202,7 @@
     <string name="bapUpdate_Success_msg">급식을 성공적으로 업데이트 했습니다 확인하려면 누르세요</string>
     <!-- 일과 운영표 -->
     <string name="title_activity_today_list">일과 운영표</string>
+    <string name="subtitle_activity_today_list">일과 운영표를 확인합니다</string>
     <string name="board_dialog">일과 운영표</string>
     <string name="board_dialog_title">게시판 안내</string>
     <string name="today_list1">월 . 수 . 금</string>
@@ -224,16 +270,6 @@
 \n종례
 \n16:15 ~
     </string>
-    <!--mAdapter.addItem("학교 등교시간", "09:00", null, false);
-    mAdapter.addItem("조회 및 학생이동", "09:00 ~ 09:10", "10분", false);
-    mAdapter.addItem("1 교시", "09:10 ~ 09:55", "45분", false);
-    mAdapter.addItem("2 교시", "10:05 ~ 10:50", "45분", false);
-    mAdapter.addItem("3 교시", "11:00 ~ 11:45", "45분", false);
-    mAdapter.addItem("4 교시", "11:55 ~ 12:40", "45분", false);
-    mAdapter.addItem("점심시간", "12:40 ~ 13:40", "60분", false);
-    mAdapter.addItem("5 교시", "13:40 ~ 14:25", "45분", false);
-    mAdapter.addItem("6 교시", "14:35 ~ 15:20", "45분", false);
-    mAdapter.addItem("종례", "15:20 ~", null, false);-->
     <string name="action_share_day">공유할 요일 선택</string>
     <string name="action_download_db">DB 업데이트</string>
 

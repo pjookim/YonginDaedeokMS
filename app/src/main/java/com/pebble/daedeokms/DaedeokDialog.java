@@ -8,6 +8,10 @@ import android.widget.*;
 import java.io.*;
 import java.net.*;
 
+/**
+ * Created by pjookim on 2015. 9. 30..
+ */
+
 public class DaedeokDialog extends Dialog implements android.view.View.OnClickListener {
 
     public Activity c;

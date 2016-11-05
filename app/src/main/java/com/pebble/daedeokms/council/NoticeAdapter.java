@@ -11,9 +11,6 @@ import com.pebble.daedeokms.R;
 
 import java.util.ArrayList;
 
-/**
- * Created by whdghks913 on 2015-12-10.
- */
 class NoticeViewHolder {
     public TextView mTitle;
     public TextView mMessage;

@@ -39,13 +39,13 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="공지사항"
+                    android:text="@string/title_activity_notice"
                     android:textSize="24dp" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="학교 홈페이지 공지사항을 확인합니다"
+                    android:text="@string/subtitle_activity_notice"
                     android:textSize="16dp"
                     android:textColor="@color/card_sub_title" />
 

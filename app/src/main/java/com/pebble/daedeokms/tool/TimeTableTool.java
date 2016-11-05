@@ -9,9 +9,6 @@ import java.io.File;
 import java.util.Calendar;
 import java.util.Locale;
 
-/**
- * Created by whdghks913 on 2015-02-17.
- */
 public class TimeTableTool {
     public static final String TimeTableDBName = "WondangHighSchoolTimeTable.db";
     public static final String tableName = "WondangTimeTable";

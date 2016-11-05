@@ -9,6 +9,10 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import com.google.android.gms.analytics.GoogleAnalytics;
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
+import com.pebble.daedeokms.AnalyticsApplication;
 import com.pebble.daedeokms.R;
 
 public class SchoolInfo extends ActionBarActivity {
@@ -17,10 +21,19 @@ public class SchoolInfo extends ActionBarActivity {
     ListView mListView;
     InfoAdapter mAdapter;
 
+    private Tracker mTracker;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_school_info);
+
+        AnalyticsApplication application = (AnalyticsApplication) getApplication();
+        mTracker = application.getDefaultTracker();
+
+        //Log.i(TAG, "Setting screen name: " + name);
+        mTracker.setScreenName("SchoolInfo");
+        mTracker.send(new HitBuilders.ScreenViewBuilder().build());
 
         mListView = (ListView) findViewById(R.id.mListView);
         mAdapter = new InfoAdapter(getApplicationContext());
@@ -58,5 +71,17 @@ public class SchoolInfo extends ActionBarActivity {
         });
 
         mAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    protected void onStart(){
+        super.onStart();
+        GoogleAnalytics.getInstance(this).reportActivityStart(this);
+    }
+
+    @Override
+    protected void onStop(){
+        super.onStop();
+        GoogleAnalytics.getInstance(this).reportActivityStop(this);
     }
 }

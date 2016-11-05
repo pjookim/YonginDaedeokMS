@@ -11,15 +11,29 @@ import android.preference.PreferenceFragment;
 import android.support.v7.app.ActionBarActivity;
 
 import uk.me.lewisdeane.ldialogs.CustomDialog;
+
+import com.google.android.gms.analytics.GoogleAnalytics;
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
+import com.pebble.daedeokms.AnalyticsApplication;
 import com.pebble.daedeokms.R;
 import com.pebble.daedeokms.autoupdate.updateAlarm;
 
 public class SettingsActivity extends ActionBarActivity {
 
+    private Tracker mTracker;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
+
+        AnalyticsApplication application = (AnalyticsApplication) getApplication();
+        mTracker = application.getDefaultTracker();
+
+        //Log.i(TAG, "Setting screen name: " + name);
+        mTracker.setScreenName("SettingsActivity");
+        mTracker.send(new HitBuilders.ScreenViewBuilder().build());
 
         // Display the fragment as the main content.
         getFragmentManager().beginTransaction().replace(R.id.container, new PrefsFragment()).commit();
@@ -37,7 +51,7 @@ public class SettingsActivity extends ActionBarActivity {
             setOnPreferenceClick(findPreference("infoAutoUpdate"));
             setOnPreferenceClick(findPreference("openSource"));
             setOnPreferenceClick(findPreference("ChangeLog"));
-            setOnPreferenceClick(findPreference("Developer"));
+            //setOnPreferenceClick(findPreference("Developer"));
             setOnPreferenceChange(findPreference("autoBapUpdate"));
             setOnPreferenceChange(findPreference("updateLife"));
 
@@ -72,13 +86,13 @@ public class SettingsActivity extends ActionBarActivity {
                     CustomDialog customDialog = builder.build();
                     customDialog.show();
 
-                } else if ("Developer".equals(getKey)) {
+                } /*else if ("Developer".equals(getKey)) {
                     CustomDialog.Builder builder = new CustomDialog.Builder(getActivity(), R.string.developer_title, android.R.string.ok);
                     builder.content(getString(R.string.developer_msg));
                     CustomDialog customDialog = builder.build();
                     customDialog.show();
 
-                } else if ("infoAutoUpdate".equals(getKey)) {
+                } */else if ("infoAutoUpdate".equals(getKey)) {
                     showNotifi();
                 }
                 return true;
@@ -157,5 +171,17 @@ public class SettingsActivity extends ActionBarActivity {
             CustomDialog customDialog = builder.build();
             customDialog.show();
         }
+    }
+
+    @Override
+    protected void onStart(){
+        super.onStart();
+        GoogleAnalytics.getInstance(this).reportActivityStart(this);
+    }
+
+    @Override
+    protected void onStop(){
+        super.onStop();
+        GoogleAnalytics.getInstance(this).reportActivityStop(this);
     }
 }

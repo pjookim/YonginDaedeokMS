@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -18,12 +19,17 @@ import com.github.mrengineer13.snackbar.SnackBar;
 import java.util.Calendar;
 
 import uk.me.lewisdeane.ldialogs.CustomDialog;
+
+import com.google.android.gms.analytics.GoogleAnalytics;
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
+import com.pebble.daedeokms.AnalyticsApplication;
 import com.pebble.daedeokms.R;
 import com.pebble.daedeokms.tool.BapTool;
 import com.pebble.daedeokms.tool.Preference;
 import com.pebble.daedeokms.tool.Tools;
 
-public class BapActivity extends ActionBarActivity {
+public class BapActivity extends AppCompatActivity {
     Toolbar mToolbar;
 
     ListView mListView;
@@ -39,10 +45,19 @@ public class BapActivity extends ActionBarActivity {
 
     boolean isUpdating = false;
 
+    private Tracker mTracker;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bap);
+
+        AnalyticsApplication application = (AnalyticsApplication) getApplication();
+        mTracker = application.getDefaultTracker();
+
+        //Log.i(TAG, "Setting screen name: " + name);
+        mTracker.setScreenName("BapActivity");
+        mTracker.send(new HitBuilders.ScreenViewBuilder().build());
 
         mCalendar = Calendar.getInstance();
         YEAR = mCalendar.get(Calendar.YEAR);
@@ -60,7 +75,7 @@ public class BapActivity extends ActionBarActivity {
                 BapListData mData = mAdapter.getItem(position);
                 String mShareBapMsg = String.format(
                         getString(R.string.shareBap_message_msg), mData.mCalender,
-                        mData.mLunch);
+                        mData.mLunch, getString(R.string.playstore_package));
                 bapShare(mShareBapMsg);
                 return;
             }
@@ -276,5 +291,17 @@ public class BapActivity extends ActionBarActivity {
         msg.putExtra(Intent.EXTRA_TEXT, mShareBapMsg);
         msg.setType("text/plain");
         startActivity(Intent.createChooser(msg, getString(R.string.shareBap_title)));
+    }
+
+    @Override
+    protected void onStart(){
+        super.onStart();
+        GoogleAnalytics.getInstance(this).reportActivityStart(this);
+    }
+
+    @Override
+    protected void onStop(){
+        super.onStop();
+        GoogleAnalytics.getInstance(this).reportActivityStop(this);
     }
 }

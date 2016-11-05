@@ -28,6 +28,10 @@ import java.util.Calendar;
 import java.util.List;
 
 import com.github.mrengineer13.snackbar.SnackBar;
+import com.google.android.gms.analytics.GoogleAnalytics;
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
+import com.pebble.daedeokms.AnalyticsApplication;
 import com.pebble.daedeokms.spreadsheets.GoogleSheetTask;
 import com.pebble.daedeokms.R;
 import com.pebble.daedeokms.tool.Database;
@@ -39,10 +43,19 @@ public class TimeTableActivity extends ActionBarActivity {
     Preference mPref;
     ViewPager viewPager;
 
+    private Tracker mTracker;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_time_table);
+
+        AnalyticsApplication application = (AnalyticsApplication) getApplication();
+        mTracker = application.getDefaultTracker();
+
+        //Log.i(TAG, "Setting screen name: " + name);
+        mTracker.setScreenName("TimeTableActivity");
+        mTracker.send(new HitBuilders.ScreenViewBuilder().build());
 
         ActionBar actionBar = getSupportActionBar();
         actionBar.setElevation(0); // 그림자 없애기
@@ -118,7 +131,7 @@ public class TimeTableActivity extends ActionBarActivity {
         int firstviewshow = preference2.getInt("TimeTable", 0);
         if (firstviewshow != 1) {
             SnackBar.Builder mSnackBar = new SnackBar.Builder(this);
-            mSnackBar.withMessage("실제 시간표와 다를 수 있으니, 꼭 확인하시기 바랍니다.");
+            mSnackBar.withMessage(getString(R.string.timetable_snackbar));
             mSnackBar.withStyle(SnackBar.Style.INFO);
             mSnackBar.withActionMessage(getResources().getString(android.R.string.ok));
             mSnackBar.show();
@@ -170,7 +183,7 @@ public class TimeTableActivity extends ActionBarActivity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 mPref.putInt("myClass", which + 1);
-                Toast.makeText(getApplicationContext(), "다시 로딩됩니다", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), R.string.reload, Toast.LENGTH_SHORT).show();
                 startActivity(new Intent(getApplicationContext(), TimeTableActivity.class));
                 finish();
             }
@@ -351,7 +364,7 @@ public class TimeTableActivity extends ActionBarActivity {
         try {
             String mText = "";
 
-            TimeTableTool.timeTableData mData = TimeTableTool.getTimeTableData(mGrade, mClass, position + 2);
+            TimeTableTool.timeTableData mData = TimeTableTool.getTimeTableData(mGrade, mClass, position);
 
             String[] subject = mData.subject;
             //String[] room = mData.room;
@@ -365,8 +378,8 @@ public class TimeTableActivity extends ActionBarActivity {
             msg.addCategory(Intent.CATEGORY_DEFAULT);
             msg.putExtra(Intent.EXTRA_TITLE, title);
             msg.putExtra(Intent.EXTRA_TEXT, String.format(
-                    getString(R.string.action_share_timetable_msg),
-                    TimeTableTool.mDisplayName[position], mText));
+                    getString(R.string.action_share_timetable_msg), mGrade, mClass,
+                    TimeTableTool.mDisplayName[position], mText, getString(R.string.playstore_package)));
             msg.setType("text/plain");
             startActivity(Intent.createChooser(msg, title));
 
@@ -379,5 +392,17 @@ public class TimeTableActivity extends ActionBarActivity {
             builder.setPositiveButton(android.R.string.ok, null);
             builder.show();
         }
+    }
+
+    @Override
+    protected void onStart(){
+        super.onStart();
+        GoogleAnalytics.getInstance(this).reportActivityStart(this);
+    }
+
+    @Override
+    protected void onStop(){
+        super.onStop();
+        GoogleAnalytics.getInstance(this).reportActivityStop(this);
     }
 }

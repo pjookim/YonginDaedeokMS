@@ -17,6 +17,10 @@ import android.widget.ListView;
 
 import java.io.File;
 
+import com.google.android.gms.analytics.GoogleAnalytics;
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
+import com.pebble.daedeokms.AnalyticsApplication;
 import com.pebble.daedeokms.spreadsheets.GoogleSheetTask;
 import com.pebble.daedeokms.R;
 import com.pebble.daedeokms.tool.Database;
@@ -40,10 +44,19 @@ public class CouncilActivity extends AppCompatActivity {
 
     SwipeRefreshLayout mSwipeRefreshLayout;
 
+    private Tracker mTracker;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_council);
+
+        AnalyticsApplication application = (AnalyticsApplication) getApplication();
+        mTracker = application.getDefaultTracker();
+
+        //Log.i(TAG, "Setting screen name: " + name);
+        mTracker.setScreenName("CouncilActivity");
+        mTracker.send(new HitBuilders.ScreenViewBuilder().build());
 
         isAdmin = new Preference(getApplicationContext()).getBoolean("userAdmin_1", false);
 
@@ -201,5 +214,16 @@ public class CouncilActivity extends AppCompatActivity {
             mSwipeRefreshLayout.setRefreshing(false);
     }
 
+    @Override
+    protected void onStart(){
+        super.onStart();
+        GoogleAnalytics.getInstance(this).reportActivityStart(this);
+    }
+
+    @Override
+    protected void onStop(){
+        super.onStop();
+        GoogleAnalytics.getInstance(this).reportActivityStop(this);
+    }
 }
 

@@ -39,13 +39,13 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="일과 운영표"
+                    android:text="@string/title_activity_today_list"
                     android:textSize="24dp" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="일과 운영표를 확인합니다"
+                    android:text="@string/subtitle_activity_today_list"
                     android:textSize="16dp"
                     android:textColor="@color/card_sub_title" />
 

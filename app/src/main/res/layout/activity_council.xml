@@ -12,10 +12,10 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <ImageView
+        <!--<ImageView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:src="@drawable/council_main" />
+            android:src="@drawable/council_main" />-->
 
         <FrameLayout
             android:layout_width="match_parent"
@@ -33,7 +33,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:divider="@null"
-                    android:dividerHeight="0dp" />
+                    android:dividerHeight="0dp"
+                    android:listSelector="#00000000"/>
 
             </android.support.v4.widget.SwipeRefreshLayout>
 

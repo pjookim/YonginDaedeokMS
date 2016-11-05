@@ -16,9 +16,17 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Locale;
 
+import com.google.android.gms.analytics.GoogleAnalytics;
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
 import com.nispok.snackbar.Snackbar;
 import com.nispok.snackbar.SnackbarManager;
+import com.pebble.daedeokms.AnalyticsApplication;
 import com.pebble.daedeokms.R;
+
+/**
+ * Created by pjookim on 2015. 1. 23..
+ */
 
 public class ScheduleActivity extends ActionBarActivity {
     Toolbar mToolbar;
@@ -28,16 +36,25 @@ public class ScheduleActivity extends ActionBarActivity {
 
     SnackBar.Builder mSnackBar;
 
+    private Tracker mTracker;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_schedule);
 
+        AnalyticsApplication application = (AnalyticsApplication) getApplication();
+        mTracker = application.getDefaultTracker();
+
+        //Log.i(TAG, "Setting screen name: " + name);
+        mTracker.setScreenName("ScheduleActivity");
+        mTracker.send(new HitBuilders.ScreenViewBuilder().build());
+
         SharedPreferences preference2 = getSharedPreferences("b", MODE_PRIVATE);
         int firstviewshow = preference2.getInt("Schedule", 0);
         if (firstviewshow != 1) {
             SnackBar.Builder mSnackBar = new SnackBar.Builder(this);
-            mSnackBar.withMessage("추후 상기사항은 학교사정에 따라 변경 될 수 있습니다.");
+            mSnackBar.withMessage(getString(R.string.schedule_snackbar));
             mSnackBar.withStyle(SnackBar.Style.INFO);
             mSnackBar.withActionMessage(getResources().getString(android.R.string.ok));
             mSnackBar.show();
@@ -186,5 +203,17 @@ public class ScheduleActivity extends ActionBarActivity {
 
     public interface Item {
         public boolean isSection();
+    }
+
+    @Override
+    protected void onStart(){
+        super.onStart();
+        GoogleAnalytics.getInstance(this).reportActivityStart(this);
+    }
+
+    @Override
+    protected void onStop(){
+        super.onStop();
+        GoogleAnalytics.getInstance(this).reportActivityStop(this);
     }
 }

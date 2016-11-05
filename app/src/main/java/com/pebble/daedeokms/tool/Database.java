@@ -6,9 +6,6 @@ import android.database.sqlite.SQLiteDatabase;
 
 import java.io.File;
 
-/**
- * Created by whdghks913 on 2015-02-23.
- */
 public class Database {
     private SQLiteDatabase mDatabase;
     private ContentValues recordValues;

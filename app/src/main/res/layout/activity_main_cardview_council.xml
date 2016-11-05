@@ -39,13 +39,13 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="학생회"
+                    android:text="@string/title_activity_council"
                     android:textSize="24dp" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="학생회를 확인합니다"
+                    android:text="@string/subtitle_activity_council"
                     android:textSize="16dp"
                     android:textColor="@color/card_sub_title" />
 

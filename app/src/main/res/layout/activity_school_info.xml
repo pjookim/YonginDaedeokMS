@@ -19,7 +19,8 @@
                 android:id="@+id/mListView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:divider="@null" />
+                android:divider="@null"
+                android:listSelector="#00000000" />
 
         </LinearLayout>
 

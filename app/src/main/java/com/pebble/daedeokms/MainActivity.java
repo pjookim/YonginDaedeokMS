@@ -1,10 +1,10 @@
 package com.pebble.daedeokms;
 
 import android.app.Dialog;
-import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
@@ -13,19 +13,18 @@ import android.os.Handler;
 import android.os.Message;
 import android.os.StrictMode;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarActivity;
-import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 
+import com.google.android.gms.analytics.GoogleAnalytics;
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
 import com.nispok.snackbar.Snackbar;
 import com.nispok.snackbar.SnackbarManager;
 import com.pebble.daedeokms.bap.BapActivity;
-import com.pebble.daedeokms.chat.ChatEnterActivity;
 import com.pebble.daedeokms.council.CouncilActivity;
 import com.pebble.daedeokms.info.SchoolInfo;
 import com.pebble.daedeokms.board.Notice;
@@ -33,46 +32,54 @@ import com.pebble.daedeokms.schedule.ScheduleActivity;
 import com.pebble.daedeokms.settings.SettingsActivity;
 import com.pebble.daedeokms.timetable.TimeTableActivity;
 import com.pebble.daedeokms.todaylist.TodayList;
-import com.pebble.daedeokms.tool.BapTool;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.Calendar;
 
-import toast.library.meal.MealLibrary;
+import uk.me.lewisdeane.ldialogs.CustomDialog;
 
-public class MainActivity extends ActionBarActivity {
+/**
+ * Created by pjookim on 2015. 1. 12..
+ */
+
+public class MainActivity extends AppCompatActivity {
     ConnectivityManager cManager;
     NetworkInfo mobile;
     NetworkInfo wifi;
-
-    ActionBarDrawerToggle mToggle;
-
-    Calendar mCalendar;
 
     private static final int MSG_TIMER_EXPIRED = 1;
     private static final int BACKKEY_TIMEOUT = 2;
     private static final int MILLIS_IN_SEC = 1000;
     private boolean mIsBackKeyPressed = false;
     private long mCurrTimeInMillis = 0;
+    private Tracker mTracker;
+
+    String serverStr;
+    int currentVer;
+    int serverVer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        startActivity(new Intent(this, Splash.class));
         setContentView(R.layout.activity_main);
 
-        SharedPreferences preference = getSharedPreferences("a", MODE_PRIVATE);
-        int firstviewshow = preference.getInt("First", 0);
-        if (firstviewshow != 1) {
-            Intent intent = new Intent(MainActivity.this, Tutorial.class);
-            startActivity(intent);
-        } else {
-            startActivity(new Intent(this, Splash.class));
-        }
+        AnalyticsApplication application = (AnalyticsApplication) getApplication();
+        mTracker = application.getDefaultTracker();
+
+        //Log.i(TAG, "Setting screen name: " + name);
+        mTracker.setScreenName("MainActivity");
+        mTracker.send(new HitBuilders.ScreenViewBuilder().build());
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(MainActivity.this, ChatEnterActivity.class));
+                Intent homepage = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.yongindaedeok.ms.kr/"));
+                startActivity(homepage);
             }
         });
 
@@ -84,116 +91,72 @@ public class MainActivity extends ActionBarActivity {
                 .permitAll().build();
         StrictMode.setThreadPolicy(policy);
 
-        if (mobile.isConnected() || wifi.isConnected()) {
+        if (wifi.isConnected()) {
+            Dialog dialog = new DaedeokDialog(this);
+            dialog.show();
+
+            run();
+            try {
+                currentVer = getPackageManager().getPackageInfo(getPackageName(), 0).versionCode;
+            } catch (PackageManager.NameNotFoundException e) {
+                e.printStackTrace();
+            }
+
+            serverVer = Integer.parseInt(serverStr);
+            if (currentVer < serverVer) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setTitle(R.string.update_alert_title)
+                        .setMessage(R.string.update_alert_message)
+                        .setCancelable(false)
+                        .setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
+                            // 확인 버튼 클릭시 설정
+                            public void onClick(DialogInterface dialog, int whichButton) {
+                                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=com.pebble.daedeokms")));
+                            }
+                        })
+                        .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                            // 취소 버튼 클릭시 설정
+                            public void onClick(DialogInterface dialog, int whichButton) {
+                                dialog.cancel();
+                            }
+                        });
+
+                AlertDialog udialog = builder.create();
+                udialog.show();
+            }
+        } else if (mobile.isConnected()) {
             Dialog dialog = new DaedeokDialog(this);
             dialog.show();
         }
     }
 
-    public View getTodayBapData() {
-        View mView = getLayoutInflater().inflate(R.layout.activity_main_cardview_bap, null);
-        int year = mCalendar.get(Calendar.YEAR);
-        int month = mCalendar.get(Calendar.MONTH);
-        int day = mCalendar.get(Calendar.DAY_OF_MONTH);
-
-        BapTool.restoreBapDateClass mData =
-                BapTool.restoreBapData(this, year, month, day);
-
-        if (!mData.isBlankDay) {
-            int hour = mCalendar.get(Calendar.HOUR_OF_DAY);
-
-            LinearLayout todayBapLayout = (LinearLayout) mView.findViewById(R.id.todayBapLayout);
-            todayBapLayout.setVisibility(View.VISIBLE);
-
-            TextView todayBapType = (TextView) mView.findViewById(R.id.todayBapType);
-            TextView todayBapData = (TextView) mView.findViewById(R.id.todayBapData);
-
-            /**
-             * hour : 0~23
-             *
-             * 0~13 : Lunch
-             * 14~23 : Dinner
-             */
-            String mTodayMeal;
-            {
-                todayBapType.setText(R.string.today_lunch);
-                mTodayMeal = mData.Lunch;
-                todayBapData.setText(!MealLibrary.isMealCheck(mTodayMeal) ? getResources().getString(R.string.no_data_lunch) : mTodayMeal);
+    public void run() {
+        StringBuilder text = new StringBuilder();
+        text.append("");
+        try {
+            URL url = new URL("http://pjookim.me/school/ver.txt");
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            if (conn != null) {
+                conn.setConnectTimeout(1000); // 1초 동안 인터넷 연결을 실패할경우 Fall 처리
+                conn.setUseCaches(false);
+                if (conn.getResponseCode() == HttpURLConnection.HTTP_OK) {
+                    BufferedReader br = new BufferedReader(
+                            new InputStreamReader(conn.getInputStream()));
+                    for (; ; ) {
+                        String line = br.readLine();
+                        if (line == null) break;
+                        text.append(line + "\n");
+                    }
+                    br.close();
+                }
+                conn.disconnect();
             }
-        }
 
-        return mView;
+        } catch (Exception ex) {
+        }
+        String tempResult = text.toString();
+        serverStr = tempResult.replace("\n", "");
     }
-
-    /*
-    public View getTodayTimeTable() {
-        View mView = getLayoutInflater().inflate(R.layout.activity_main_cardview_timetable, null);
-
-        Preference mPref = new Preference(getApplicationContext());
-
-        int mGrade = mPref.getInt("myGrade", -1);
-        int mClass = mPref.getInt("myClass", -1);
-
-        if (mGrade == -1 || mClass == -1) {
-            return mView;
-        }
-
-        int DayOfWeek = mCalendar.get(Calendar.DAY_OF_WEEK);
-        if (DayOfWeek > 1 && DayOfWeek < 7) {
-            DayOfWeek -= 2;
-        } else {
-            return mView;
-        }
-
-        boolean mFileExists = new File(TimeTableTool.mFilePath + TimeTableTool.TimeTableDBName).exists();
-        if (!mFileExists)
-            return mView;
-
-        String mTimeTable = "";
-        LinearLayout todayTimeTableLayout = (LinearLayout) mView.findViewById(R.id.todayTimeTableLayout);
-        TextView todayOfWeek = (TextView) mView.findViewById(R.id.todayOfWeek);
-        TextView todayTimeTable = (TextView) mView.findViewById(R.id.todayTimeTable);
-
-        Database mDatabase = new Database();
-        mDatabase.openOrCreateDatabase(TimeTableTool.mFilePath, TimeTableTool.TimeTableDBName, TimeTableTool.tableName, "");
-
-        Cursor mCursor = mDatabase.getData(TimeTableTool.tableName, "*");
-
-        mCursor.moveToPosition((DayOfWeek * 7) + 1);
-
-        for (int period = 1; period <= 7; period++) {
-            String mSubject;
-
-            if (mGrade == 1) {
-                mSubject = mCursor.getString((mClass * 2) - 2);
-//                mRoom = mCursor.getString((mClass * 2) - 1);
-            } else if (mGrade == 2) {
-                mSubject = mCursor.getString(18 + (mClass * 2));
-//                mRoom = mCursor.getString(19 + (mClass * 2));
-            } else {
-                mSubject = mCursor.getString(39 + mClass);
-//                mRoom = null;
-            }
-
-//            if (mSubject != null && !mSubject.isEmpty()
-//                    && mSubject.indexOf("\n") != -1)
-//                mSubject = mSubject.replace("\n", "(") + ")";
-
-            String tmp = Integer.toString(period) + ". " + mSubject;
-            mTimeTable += tmp;
-
-            if (mCursor.moveToNext()) {
-                mTimeTable += "\n";
-            }
-        }
-
-        todayTimeTableLayout.setVisibility(View.VISIBLE);
-        todayOfWeek.setText(String.format(getString(R.string.today_timetable), TimeTableTool.mDisplayName[DayOfWeek]));
-        todayTimeTable.setText(mTimeTable);
-
-        return mView;
-    }
-    */
 
     public void Bap(View mView) {
         startActivity(new Intent(this, BapActivity.class));
@@ -223,15 +186,9 @@ public class MainActivity extends ActionBarActivity {
         startActivity(new Intent(this, CouncilActivity.class));
     }
 
-    public void Chat(View mView) {
-        startActivity(new Intent(this, ChatEnterActivity.class));
-    }
-
     public void Web(View mView) {
-        Intent myIntent = new Intent
-                (Intent.ACTION_VIEW, Uri.parse
-                        ("http://www.yongindaedeok.ms.kr/"));
-        startActivity(myIntent);
+        Intent homepage = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.yongindaedeok.ms.kr/"));
+        startActivity(homepage);
     }
 
     @Override
@@ -243,20 +200,30 @@ public class MainActivity extends ActionBarActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            startActivity(new Intent(this, SettingsActivity.class));
-            return true;
-
-        } else if (mToggle.onOptionsItemSelected(item)) {
-            return true;
+        switch (id) {
+            case R.id.menu_settings:
+                startActivity(new Intent(this, SettingsActivity.class));
+                return true;
+            case R.id.menu_notice:
+                if (mobile.isConnected() || wifi.isConnected()) {
+                    Dialog dialog = new DaedeokDialog(this);
+                    dialog.show();
+                } else {
+                    SnackbarManager.show(
+                            Snackbar.with(this)
+                                    .text(R.string.need_network));
+                    startTimer();
+                }
+                return true;
+            case R.id.menu_developer:
+                CustomDialog.Builder builder = new CustomDialog.Builder(this, R.string.developer_title, android.R.string.ok);
+                builder.content(getString(R.string.developer_msg));
+                CustomDialog customDialog = builder.build();
+                customDialog.show();
+                return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
 
@@ -266,31 +233,27 @@ public class MainActivity extends ActionBarActivity {
 
     }
 
-    public void onBackPressed()
-    {
-        if (mIsBackKeyPressed == false)
-        {
+    public void onBackPressed() {
+        if (!mIsBackKeyPressed) {
             mIsBackKeyPressed = true;
             mCurrTimeInMillis = Calendar.getInstance().getTimeInMillis();
             SnackbarManager.show(
                     Snackbar.with(this)
-                            .text("'뒤로' 버튼을 한번 더 누르시면 종료됩니다."));
+                            .text(R.string.before_close));
             startTimer();
         } else {
             mIsBackKeyPressed = false;
-            if (Calendar.getInstance().getTimeInMillis() <= (mCurrTimeInMillis + (BACKKEY_TIMEOUT * MILLIS_IN_SEC)))
-            {
+            if (Calendar.getInstance().getTimeInMillis() <= (mCurrTimeInMillis + (BACKKEY_TIMEOUT * MILLIS_IN_SEC))) {
                 finish();
             }
         }
     }
 
-    private void startTimer()
-    {
+    private void startTimer() {
         mTimerHandler.sendEmptyMessageDelayed(MSG_TIMER_EXPIRED, BACKKEY_TIMEOUT * MILLIS_IN_SEC);
     }
 
-    private Handler mTimerHandler = new Handler(){
+    private Handler mTimerHandler = new Handler() {
         public void handleMessage(Message msg) {
             switch (msg.what) {
                 case MSG_TIMER_EXPIRED: {
@@ -300,4 +263,16 @@ public class MainActivity extends ActionBarActivity {
             }
         }
     };
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        GoogleAnalytics.getInstance(this).reportActivityStart(this);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        GoogleAnalytics.getInstance(this).reportActivityStop(this);
+    }
 }

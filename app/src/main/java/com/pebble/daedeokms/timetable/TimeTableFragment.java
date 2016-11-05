@@ -11,9 +11,6 @@ import android.view.ViewGroup;
 import com.pebble.daedeokms.R;
 import com.pebble.daedeokms.tool.TimeTableTool;
 
-/**
- * Created by whdghks913 on 2015-12-02.
- */
 public class TimeTableFragment extends Fragment {
 
     public static Fragment getInstance(int mGrade, int mClass, int dayOfWeek) {

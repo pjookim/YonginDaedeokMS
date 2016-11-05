@@ -4,9 +4,6 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
-/**
- * Created by 종환 on 2015-02-18.
- */
 public class Tools {
     public static boolean isNetwork(Context mContext) {
         ConnectivityManager manager = (ConnectivityManager) mContext
